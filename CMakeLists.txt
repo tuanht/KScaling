@@ -70,3 +70,16 @@ target_link_libraries(MockDisplayBackendTest
         Qt6::Test
 )
 add_test(NAME MockDisplayBackendTest COMMAND MockDisplayBackendTest)
+
+add_executable(ApplyOrchestratorTest
+    tests/ApplyOrchestratorTest.cpp
+    src/core/Settings.cpp
+)
+target_include_directories(ApplyOrchestratorTest PRIVATE src/core)
+target_link_libraries(ApplyOrchestratorTest
+    PRIVATE
+        MockDisplayBackend
+        Qt6::Core
+        Qt6::Test
+)
+add_test(NAME ApplyOrchestratorTest COMMAND ApplyOrchestratorTest)
