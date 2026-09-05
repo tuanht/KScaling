@@ -14,7 +14,12 @@ set(CMAKE_AUTOMOC ON)
 find_package(Qt6 REQUIRED COMPONENTS Core Test)
 find_package(KF6Screen REQUIRED)
 
-add_executable(kscaling src/main.cpp)
+add_executable(kscaling
+    src/main.cpp
+    src/core/Settings.cpp
+)
+
+target_include_directories(kscaling PRIVATE src/core)
 
 target_link_libraries(kscaling
     PRIVATE
@@ -36,3 +41,15 @@ target_link_libraries(ResolutionMathTest
         Qt6::Test
 )
 add_test(NAME ResolutionMathTest COMMAND ResolutionMathTest)
+
+add_executable(SettingsTest
+    tests/SettingsTest.cpp
+    src/core/Settings.cpp
+)
+target_include_directories(SettingsTest PRIVATE src/core)
+target_link_libraries(SettingsTest
+    PRIVATE
+        Qt6::Core
+        Qt6::Test
+)
+add_test(NAME SettingsTest COMMAND SettingsTest)
