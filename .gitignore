@@ -1,1 +1,4 @@
-.opencode/
+.env
+.env.*
+.opencode/**/*.log
+.opencode/cache/

@@ -1,0 +1,18 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "agent": {
+    "build": {
+      "mode": "primary",
+      "model": "xai/grok-4.6#high"
+    },
+    "implementer": {
+      "mode": "subagent",
+      "model": "xai/grok-build-0.1"
+    },
+    "reviewer": {
+      "mode": "subagent",
+      "model": "xai/grok-4.6#high"
+    }
+  }
+}
+
