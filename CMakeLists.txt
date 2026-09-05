@@ -25,7 +25,10 @@ target_link_libraries(kscaling
 enable_testing()
 include(CTest)
 
-add_executable(ResolutionMathTest tests/ResolutionMathTest.cpp)
+add_executable(ResolutionMathTest
+    tests/ResolutionMathTest.cpp
+    src/core/ResolutionMath.cpp
+)
 target_include_directories(ResolutionMathTest PRIVATE src/core)
 target_link_libraries(ResolutionMathTest
     PRIVATE
