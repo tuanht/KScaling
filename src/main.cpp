@@ -1,7 +1,13 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 // SPDX-FileCopyrightText: 2026 KScaling contributors
 
-int main()
+#include "cli/Cli.h"
+
+#include <QCoreApplication>
+
+int main(int argc, char* argv[])
 {
-    return 0;
+    QCoreApplication app(argc, argv);
+    app.setApplicationName(QStringLiteral("kscaling"));
+    return Cli::UsageError;
 }
