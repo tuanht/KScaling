@@ -46,7 +46,6 @@ Result MockDisplayBackend::applyCustom(const ConnectorName& name,
     }
 
     const qreal scaleBeforeAttempt = output->scale;
-    const QString preferredModeId = output->preferredModeId;
 
     if (!hasCustomMode(*output, canvas, hz)) {
         if (m_failPhaseA) {
@@ -55,14 +54,16 @@ Result MockDisplayBackend::applyCustom(const ConnectorName& name,
             return {false, error};
         }
         output->customModes.append(SizeHz{canvas, hz});
-        registerCustomModes(*output);
     }
+
+    simulateReload();
 
     const Mode* picked = pickMode(*output, canvas, hz);
     if (!picked || picked->id.isEmpty()) {
         return {false, QStringLiteral("mode not found")};
     }
 
+    const QString preferredModeId = output->preferredModeId;
     if (m_failPhaseB) {
         output->currentModeId = preferredModeId;
         output->scale = scaleBeforeAttempt;
@@ -132,8 +133,6 @@ void MockDisplayBackend::injectOutput(const OutputSnapshot& snapshot)
         state.currentModeId = current.id;
     }
 
-    registerCustomModes(state);
-
     for (int i = 0; i < m_outputs.size(); ++i) {
         if (m_outputs.at(i).name == snapshot.name) {
             m_outputs[i] = state;
@@ -155,13 +154,27 @@ void MockDisplayBackend::setFailPhaseB(bool fail, const QString& error)
     m_phaseBError = error;
 }
 
+void MockDisplayBackend::simulateReload()
+{
+    ++m_snapshotGeneration;
+    for (OutputState& output : m_outputs) {
+        rebuildModesForCurrentGeneration(output);
+    }
+}
+
 Result MockDisplayBackend::setCurrentModeId(const ConnectorName& name, const QString& modeId)
 {
     OutputState* output = findOutput(name);
     if (!output) {
         return {false, QStringLiteral("output not found")};
     }
-    if (modeId.isEmpty() || !findMode(*output, modeId)) {
+    if (modeId.isEmpty() || !m_idGeneration.contains(modeId)) {
+        return {false, QStringLiteral("invalid mode id")};
+    }
+    if (m_idGeneration.value(modeId) != m_snapshotGeneration) {
+        return {false, QStringLiteral("invalid mode id")};
+    }
+    if (!findMode(*output, modeId)) {
         return {false, QStringLiteral("invalid mode id")};
     }
     output->currentModeId = modeId;
@@ -235,28 +248,16 @@ bool MockDisplayBackend::hasCustomMode(const OutputState& output, Size canvas, q
     return false;
 }
 
-QString MockDisplayBackend::addSwitchableMode(OutputState& output, Size size, qreal hz)
-{
-    for (const Mode& mode : output.modes) {
-        if (sameSizeHz(mode.size, mode.hz, size, hz) && !mode.id.isEmpty()) {
-            return mode.id;
-        }
-    }
-    Mode mode;
-    mode.size = size;
-    mode.hz = hz;
-    mode.id = allocateModeId();
-    output.modes.append(mode);
-    return mode.id;
-}
-
 QString MockDisplayBackend::allocateModeId()
 {
-    return QString::number(m_nextModeId++);
+    const QString id = QString::number(m_nextModeId++);
+    m_idGeneration.insert(id, m_snapshotGeneration);
+    return id;
 }
 
 void MockDisplayBackend::noteId(const QString& id)
 {
+    m_idGeneration.insert(id, m_snapshotGeneration);
     bool ok = false;
     const int value = id.toInt(&ok);
     if (ok && value >= m_nextModeId) {
@@ -264,9 +265,57 @@ void MockDisplayBackend::noteId(const QString& id)
     }
 }
 
-void MockDisplayBackend::registerCustomModes(OutputState& output)
+void MockDisplayBackend::rebuildModesForCurrentGeneration(OutputState& output)
 {
+    Size nativeSize;
+    qreal nativeHz = 0;
+    if (const Mode* native = findMode(output, output.preferredModeId)) {
+        nativeSize = native->size;
+        nativeHz = native->hz;
+    }
+
+    Size currentSize;
+    qreal currentHz = 0;
+    bool hasCurrent = false;
+    if (const Mode* current = findMode(output, output.currentModeId)) {
+        currentSize = current->size;
+        currentHz = current->hz;
+        hasCurrent = true;
+    }
+
+    output.modes.clear();
+
+    Mode native;
+    native.size = nativeSize;
+    native.hz = nativeHz;
+    native.id = allocateModeId();
+    output.modes.append(native);
+    output.preferredModeId = native.id;
+
+    auto appendUnique = [&](Size size, qreal hz) {
+        for (const Mode& mode : output.modes) {
+            if (sameSizeHz(mode.size, mode.hz, size, hz)) {
+                return;
+            }
+        }
+        Mode mode;
+        mode.size = size;
+        mode.hz = hz;
+        mode.id = allocateModeId();
+        output.modes.append(mode);
+    };
+
     for (const SizeHz& custom : output.customModes) {
-        addSwitchableMode(output, custom.size, custom.hz);
+        appendUnique(custom.size, custom.hz);
+    }
+    if (hasCurrent) {
+        appendUnique(currentSize, currentHz);
+    }
+
+    output.currentModeId = output.preferredModeId;
+    if (hasCurrent) {
+        if (const Mode* matched = pickMode(output, currentSize, currentHz)) {
+            output.currentModeId = matched->id;
+        }
     }
 }

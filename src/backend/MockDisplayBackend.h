@@ -5,6 +5,8 @@
 
 #include "DisplayBackend.h"
 
+#include <QHash>
+
 class MockDisplayBackend : public DisplayBackend
 {
 public:
@@ -21,6 +23,7 @@ public:
     void injectOutput(const OutputSnapshot& snapshot);
     void setFailPhaseA(bool fail, const QString& error = {});
     void setFailPhaseB(bool fail, const QString& error = {});
+    void simulateReload();
 
     Result setCurrentModeId(const ConnectorName& name, const QString& modeId);
 
@@ -42,13 +45,14 @@ private:
     const Mode* findMode(const OutputState& output, const QString& id) const;
     const Mode* pickMode(const OutputState& output, Size canvas, qreal hz) const;
     bool hasCustomMode(const OutputState& output, Size canvas, qreal hz) const;
-    QString addSwitchableMode(OutputState& output, Size size, qreal hz);
     QString allocateModeId();
     void noteId(const QString& id);
-    void registerCustomModes(OutputState& output);
+    void rebuildModesForCurrentGeneration(OutputState& output);
 
     QList<OutputState> m_outputs;
+    int m_snapshotGeneration = 0;
     int m_nextModeId = 1;
+    QHash<QString, int> m_idGeneration;
     bool m_failPhaseA = false;
     bool m_failPhaseB = false;
     QString m_phaseAError;

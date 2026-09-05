@@ -59,3 +59,14 @@ target_link_libraries(SettingsTest
         Qt6::Test
 )
 add_test(NAME SettingsTest COMMAND SettingsTest)
+
+add_executable(MockDisplayBackendTest
+    tests/MockDisplayBackendTest.cpp
+)
+target_link_libraries(MockDisplayBackendTest
+    PRIVATE
+        MockDisplayBackend
+        Qt6::Core
+        Qt6::Test
+)
+add_test(NAME MockDisplayBackendTest COMMAND MockDisplayBackendTest)
