@@ -27,6 +27,12 @@ target_link_libraries(kscaling
         KF6::Screen
 )
 
+add_library(MockDisplayBackend STATIC
+    src/backend/MockDisplayBackend.cpp
+)
+target_include_directories(MockDisplayBackend PUBLIC src/backend)
+target_link_libraries(MockDisplayBackend PUBLIC Qt6::Core)
+
 enable_testing()
 include(CTest)
 
