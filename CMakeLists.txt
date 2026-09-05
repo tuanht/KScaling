@@ -73,6 +73,8 @@ add_test(NAME MockDisplayBackendTest COMMAND MockDisplayBackendTest)
 
 add_executable(ApplyOrchestratorTest
     tests/ApplyOrchestratorTest.cpp
+    src/core/ApplyService.cpp
+    src/core/ResolutionMath.cpp
     src/core/Settings.cpp
 )
 target_include_directories(ApplyOrchestratorTest PRIVATE src/core)
