@@ -2,3 +2,15 @@
 .env.*
 .opencode/**/*.log
 .opencode/cache/
+build/
+bin/
+obj/
+out/
+*.o
+*.so
+*.a
+*.exe
+*.dll
+.idea/
+*.log
+.env*
