@@ -24,3 +24,12 @@ target_link_libraries(kscaling
 
 enable_testing()
 include(CTest)
+
+add_executable(ResolutionMathTest tests/ResolutionMathTest.cpp)
+target_include_directories(ResolutionMathTest PRIVATE src/core)
+target_link_libraries(ResolutionMathTest
+    PRIVATE
+        Qt6::Core
+        Qt6::Test
+)
+add_test(NAME ResolutionMathTest COMMAND ResolutionMathTest)
