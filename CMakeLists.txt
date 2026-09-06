@@ -17,9 +17,10 @@ find_package(KF6Screen REQUIRED)
 add_executable(kscaling
     src/main.cpp
     src/core/Settings.cpp
+    src/backend/LibKScreenBackend.cpp
 )
 
-target_include_directories(kscaling PRIVATE src/core)
+target_include_directories(kscaling PRIVATE src/core src/backend)
 
 target_link_libraries(kscaling
     PRIVATE
