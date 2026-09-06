@@ -100,7 +100,7 @@ void ApplyOrchestratorTest::reuseExistingCustom_bySizeAndRoundedHz_doesNotDuplic
 {
     MockDisplayBackend mock;
     OutputSnapshot snapshot = connectedDp3(1.0);
-    snapshot.customModes.append(SizeHz{{4096, 2304}, 119.7});
+    snapshot.customModes.append(SizeHz{{4096, 2304}, 59.7});
     mock.injectOutput(snapshot);
     mock.setFailPhaseA(true, QStringLiteral("phase A rejected"));
 
@@ -117,7 +117,7 @@ void ApplyOrchestratorTest::reuseExistingCustom_bySizeAndRoundedHz_doesNotDuplic
     QCOMPARE(listed.customModes.size(), 1);
     QCOMPARE(listed.customModes.at(0).size.w, 4096);
     QCOMPARE(listed.customModes.at(0).size.h, 2304);
-    QCOMPARE(qRound(listed.customModes.at(0).hz), 120);
+    QCOMPARE(qRound(listed.customModes.at(0).hz), 60);
 
     const Settings::LoadResult loaded = Settings::load();
     QVERIFY(loaded.ok);
@@ -125,7 +125,7 @@ void ApplyOrchestratorTest::reuseExistingCustom_bySizeAndRoundedHz_doesNotDuplic
     const SavedProfile& profile = loaded.outputs.value(QStringLiteral("DP-3"));
     QCOMPARE(profile.preset, QStringLiteral("perfect"));
     QCOMPARE(profile.mode, QSize(4096, 2304));
-    QCOMPARE(profile.hz, 120.0);
+    QCOMPARE(profile.hz, 60.0);
     QCOMPARE(profile.originalScale, 1.0);
 }
 
@@ -236,7 +236,7 @@ void ApplyOrchestratorTest::compositorReject_doesNotRetryOtherHz()
     QCOMPARE(spy.lastName, QStringLiteral("DP-3"));
     QCOMPARE(spy.lastCanvas.w, 4096);
     QCOMPARE(spy.lastCanvas.h, 2304);
-    QCOMPARE(spy.lastHz, 120.0);
+    QCOMPARE(spy.lastHz, 60.0);
     QCOMPARE(spy.lastScale, 2.00);
 
     const OutputSnapshot listed = mock.list().snapshots.at(0);

@@ -23,7 +23,7 @@ void ResolutionMathTest::fixtureA_goldens_data()
     QTest::addColumn<QSize>("canvas");
     QTest::addColumn<qreal>("hz");
 
-    QTest::newRow("perfect") << 1.25 << QSize(2048, 1152) << QSize(4096, 2304) << 120.0;
+    QTest::newRow("perfect") << 1.25 << QSize(2048, 1152) << QSize(4096, 2304) << 60.0;
     QTest::newRow("max-space") << 1.00 << QSize(2560, 1440) << QSize(5120, 2880) << 60.0;
     QTest::newRow("comfort") << 1.60 << QSize(1600, 900) << QSize(3200, 1800) << 120.0;
     QTest::newRow("large") << 1.778 << QSize(1440, 810) << QSize(2880, 1620) << 120.0;

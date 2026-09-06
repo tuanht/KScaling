@@ -61,7 +61,7 @@ void ListTest::fixtureA_printsGoldenPresetRows()
 
     const QString text = Cli::formatList(mock.list());
     const QStringList lines = text.split(QLatin1Char('\n'), Qt::SkipEmptyParts);
-    QCOMPARE(lines.value(1), QStringLiteral("  perfect    looks 2048x1152  mode 4096x2304 @ 120"));
+    QCOMPARE(lines.value(1), QStringLiteral("  perfect    looks 2048x1152  mode 4096x2304 @ 60"));
     QCOMPARE(lines.value(2), QStringLiteral("  max-space  looks 2560x1440  mode 5120x2880 @ 60"));
     QCOMPARE(lines.value(3), QStringLiteral("  comfort    looks 1600x900   mode 3200x1800 @ 120"));
     QCOMPARE(lines.value(4), QStringLiteral("  large      looks 1440x810   mode 2880x1620 @ 120"));

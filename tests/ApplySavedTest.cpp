@@ -145,14 +145,14 @@ void ApplySavedTest::applyPerfect_revert_applySaved_restoresPerfect()
     QCOMPARE(result.applied.at(0).preset, QStringLiteral("perfect"));
     QCOMPARE(result.applied.at(0).canvas.w, 4096);
     QCOMPARE(result.applied.at(0).canvas.h, 2304);
-    QCOMPARE(result.applied.at(0).hz, 120.0);
+    QCOMPARE(result.applied.at(0).hz, 60.0);
     QCOMPARE(result.applied.at(0).scale, 2.00);
 
     QCOMPARE(spy.applyCustomCalls, 1);
     QCOMPARE(spy.lastName, QStringLiteral("DP-3"));
     QCOMPARE(spy.lastCanvas.w, 4096);
     QCOMPARE(spy.lastCanvas.h, 2304);
-    QCOMPARE(spy.lastHz, 120.0);
+    QCOMPARE(spy.lastHz, 60.0);
     QCOMPARE(spy.lastScale, 2.00);
 
     const OutputSnapshot listed = mock.list().snapshots.at(0);
@@ -162,7 +162,7 @@ void ApplySavedTest::applyPerfect_revert_applySaved_restoresPerfect()
     QCOMPARE(listed.customModes.size(), 1);
     QCOMPARE(listed.customModes.at(0).size.w, 4096);
     QCOMPARE(listed.customModes.at(0).size.h, 2304);
-    QCOMPARE(qRound(listed.customModes.at(0).hz), 120);
+    QCOMPARE(qRound(listed.customModes.at(0).hz), 60);
 }
 
 void ApplySavedTest::applySaved_skipsDisconnected_withoutFailingOthers()
@@ -285,7 +285,7 @@ void ApplySavedTest::applySaved_recomputesFromPresetAndNative_whenModeHzMissing(
     QCOMPARE(spy.applyCustomCalls, 1);
     QCOMPARE(spy.lastCanvas.w, 4096);
     QCOMPARE(spy.lastCanvas.h, 2304);
-    QCOMPARE(spy.lastHz, 120.0);
+    QCOMPARE(spy.lastHz, 60.0);
     QCOMPARE(spy.lastScale, 2.00);
 
     const OutputSnapshot listed = mock.list().snapshots.at(0);
