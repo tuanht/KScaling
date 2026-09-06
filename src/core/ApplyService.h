@@ -10,11 +10,21 @@
 class ApplyService
 {
 public:
+    struct Applied
+    {
+        ConnectorName connector;
+        QString preset;
+        Size canvas;
+        qreal hz = 0;
+        qreal scale = 2.00;
+    };
+
     struct Result
     {
         bool ok = false;
         int exitCode = 1;
         QString error;
+        QList<Applied> applied;
     };
 
     explicit ApplyService(DisplayBackend& backend);

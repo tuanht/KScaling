@@ -28,6 +28,9 @@ private slots:
     void parse_applyAndList_isUsageError();
     void parse_unknownFlag_isUsageError();
 
+    void formatApplySaved_empty_isNothingApplied();
+    void formatApplySaved_printsConnectorPresetCanvasScale();
+
     void resolve_zeroConnected_isExit3();
     void resolve_oneConnected_omittedOutput();
     void resolve_oneConnected_matchingOutput();
@@ -183,6 +186,24 @@ void CliTest::parse_unknownFlag_isUsageError()
 {
     const auto r = Cli::parse({QStringLiteral("kscaling"), QStringLiteral("--doctor")});
     QCOMPARE(r.exitCode, Cli::UsageError);
+}
+
+void CliTest::formatApplySaved_empty_isNothingApplied()
+{
+    QCOMPARE(Cli::formatApplySaved({}), QStringLiteral("nothing applied\n"));
+}
+
+void CliTest::formatApplySaved_printsConnectorPresetCanvasScale()
+{
+    Cli::AppliedOutput applied;
+    applied.connector = QStringLiteral("DP-3");
+    applied.preset = QStringLiteral("perfect");
+    applied.canvasW = 4096;
+    applied.canvasH = 2304;
+    applied.hz = 120;
+    applied.scale = 2.00;
+    QCOMPARE(Cli::formatApplySaved({applied}),
+             QStringLiteral("DP-3  perfect  4096x2304 @ 120  scale 2.00\n"));
 }
 
 void CliTest::resolve_zeroConnected_isExit3()

@@ -162,6 +162,24 @@ QString formatPresetRow(const Preset& preset, QSize native)
 
 } // namespace
 
+QString Cli::formatApplySaved(const QList<AppliedOutput>& applied)
+{
+    if (applied.isEmpty()) {
+        return QStringLiteral("nothing applied\n");
+    }
+
+    QString text;
+    for (const AppliedOutput& item : applied) {
+        text += QStringLiteral("%1  %2  %3x%4 @ %5  scale %6\n")
+                    .arg(item.connector, item.preset)
+                    .arg(item.canvasW)
+                    .arg(item.canvasH)
+                    .arg(qRound(item.hz))
+                    .arg(QString::number(item.scale, 'f', 2));
+    }
+    return text;
+}
+
 QString Cli::formatList(const ListResult& listed)
 {
     QString text;

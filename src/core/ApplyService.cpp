@@ -162,6 +162,14 @@ ApplyService::Result ApplyService::applySaved()
             result.exitCode = 1;
             return result;
         }
+
+        Applied recorded;
+        recorded.connector = name;
+        recorded.preset = profile.preset;
+        recorded.canvas = canvas;
+        recorded.hz = hz;
+        recorded.scale = 2.00;
+        result.applied.append(recorded);
     }
 
     result.ok = true;

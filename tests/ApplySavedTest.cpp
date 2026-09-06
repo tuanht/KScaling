@@ -140,6 +140,13 @@ void ApplySavedTest::applyPerfect_revert_applySaved_restoresPerfect()
     const ApplyService::Result result = restore.applySaved();
     QVERIFY(result.ok);
     QCOMPARE(result.exitCode, 0);
+    QCOMPARE(result.applied.size(), 1);
+    QCOMPARE(result.applied.at(0).connector, QStringLiteral("DP-3"));
+    QCOMPARE(result.applied.at(0).preset, QStringLiteral("perfect"));
+    QCOMPARE(result.applied.at(0).canvas.w, 4096);
+    QCOMPARE(result.applied.at(0).canvas.h, 2304);
+    QCOMPARE(result.applied.at(0).hz, 120.0);
+    QCOMPARE(result.applied.at(0).scale, 2.00);
 
     QCOMPARE(spy.applyCustomCalls, 1);
     QCOMPARE(spy.lastName, QStringLiteral("DP-3"));
@@ -182,6 +189,8 @@ void ApplySavedTest::applySaved_skipsDisconnected_withoutFailingOthers()
     const ApplyService::Result result = restore.applySaved();
     QVERIFY(result.ok);
     QCOMPARE(result.exitCode, 0);
+    QCOMPARE(result.applied.size(), 1);
+    QCOMPARE(result.applied.at(0).connector, QStringLiteral("DP-3"));
 
     QCOMPARE(spy.applyCustomCalls, 1);
     QCOMPARE(spy.applyCustomNames, QList<ConnectorName>{QStringLiteral("DP-3")});
@@ -212,6 +221,7 @@ void ApplySavedTest::applySaved_noSavedProfiles_exits0_nothingApplied()
     const ApplyService::Result result = service.applySaved();
     QVERIFY(result.ok);
     QCOMPARE(result.exitCode, 0);
+    QVERIFY(result.applied.isEmpty());
     QCOMPARE(spy.applyCustomCalls, 0);
 
     const OutputSnapshot listed = mock.list().snapshots.at(0);

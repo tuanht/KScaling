@@ -44,7 +44,18 @@ public:
         QString error;
     };
 
+    struct AppliedOutput
+    {
+        QString connector;
+        QString preset;
+        int canvasW = 0;
+        int canvasH = 0;
+        qreal hz = 0;
+        qreal scale = 2.00;
+    };
+
     static ParseResult parse(const QStringList& args);
     static ResolveResult resolveOutput(const ParseResult& parsed, const QStringList& connectedNames);
     static QString formatList(const ListResult& listed);
+    static QString formatApplySaved(const QList<AppliedOutput>& applied);
 };

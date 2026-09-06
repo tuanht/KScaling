@@ -23,6 +23,29 @@ int main(int argc, char* argv[])
     }
 
     LibKScreenBackend backend;
+    if (parsed.command == Cli::Command::ApplySaved) {
+        ApplyService service(backend);
+        const ApplyService::Result restored = service.applySaved();
+        if (!restored.error.isEmpty()) {
+            QTextStream(stderr) << restored.error << '\n';
+        }
+        if (restored.ok) {
+            QList<Cli::AppliedOutput> lines;
+            for (const ApplyService::Applied& item : restored.applied) {
+                Cli::AppliedOutput line;
+                line.connector = item.connector;
+                line.preset = item.preset;
+                line.canvasW = item.canvas.w;
+                line.canvasH = item.canvas.h;
+                line.hz = item.hz;
+                line.scale = item.scale;
+                lines.append(line);
+            }
+            QTextStream(stdout) << Cli::formatApplySaved(lines);
+        }
+        return restored.exitCode;
+    }
+
     const ListResult listed = backend.list();
     if (parsed.command == Cli::Command::List) {
         if (!listed.ok) {
