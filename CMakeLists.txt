@@ -116,3 +116,18 @@ target_link_libraries(ApplyOrchestratorTest
         Qt6::Test
 )
 add_test(NAME ApplyOrchestratorTest COMMAND ApplyOrchestratorTest)
+
+add_executable(RevertTest
+    tests/RevertTest.cpp
+    src/core/ApplyService.cpp
+    src/core/ResolutionMath.cpp
+    src/core/Settings.cpp
+)
+target_include_directories(RevertTest PRIVATE src/core)
+target_link_libraries(RevertTest
+    PRIVATE
+        MockDisplayBackend
+        Qt6::Core
+        Qt6::Test
+)
+add_test(NAME RevertTest COMMAND RevertTest)
