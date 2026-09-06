@@ -87,6 +87,19 @@ target_link_libraries(CliTest
 )
 add_test(NAME CliTest COMMAND CliTest)
 
+add_executable(ListTest
+    tests/ListTest.cpp
+    src/cli/Cli.cpp
+)
+target_include_directories(ListTest PRIVATE src src/core)
+target_link_libraries(ListTest
+    PRIVATE
+        MockDisplayBackend
+        Qt6::Core
+        Qt6::Test
+)
+add_test(NAME ListTest COMMAND ListTest)
+
 add_executable(ApplyOrchestratorTest
     tests/ApplyOrchestratorTest.cpp
     src/core/ApplyService.cpp
