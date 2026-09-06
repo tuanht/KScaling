@@ -14,11 +14,13 @@ public:
     {
         bool ok = false;
         int exitCode = 1;
+        QString error;
     };
 
     explicit ApplyService(DisplayBackend& backend);
 
     Result apply(const QString& presetId, const ConnectorName& name);
+    Result revert(const ConnectorName& name);
 
 private:
     DisplayBackend& m_backend;

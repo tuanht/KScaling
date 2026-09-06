@@ -35,7 +35,7 @@ int main(int argc, char* argv[])
         return Cli::Success;
     }
 
-    if (parsed.command != Cli::Command::Apply) {
+    if (parsed.command != Cli::Command::Apply && parsed.command != Cli::Command::Revert) {
         return Cli::UsageError;
     }
     if (!listed.ok) {
@@ -61,5 +61,13 @@ int main(int argc, char* argv[])
     }
 
     ApplyService service(backend);
+    if (parsed.command == Cli::Command::Revert) {
+        const ApplyService::Result reverted = service.revert(resolved.output);
+        if (!reverted.error.isEmpty()) {
+            QTextStream(stderr) << reverted.error << '\n';
+        }
+        return reverted.exitCode;
+    }
+
     return service.apply(parsed.preset, resolved.output).exitCode;
 }

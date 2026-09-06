@@ -7,6 +7,8 @@
 #include "ResolutionMath.h"
 #include "Settings.h"
 
+#include <optional>
+
 ApplyService::ApplyService(DisplayBackend& backend)
     : m_backend(backend)
 {
@@ -78,5 +80,30 @@ ApplyService::Result ApplyService::apply(const QString& presetId, const Connecto
 
     result.ok = true;
     result.exitCode = 0;
+    return result;
+}
+
+ApplyService::Result ApplyService::revert(const ConnectorName& name)
+{
+    Result result;
+
+    std::optional<qreal> originalScale;
+    const Settings::LoadResult loaded = Settings::load();
+    if (loaded.ok && loaded.outputs.contains(name)) {
+        originalScale = loaded.outputs.value(name).originalScale;
+    }
+
+    const ::Result reverted = m_backend.revert(name, originalScale);
+    if (!reverted.ok) {
+        result.exitCode = 1;
+        result.error = reverted.error;
+        return result;
+    }
+
+    result.ok = true;
+    result.exitCode = 0;
+    if (!originalScale.has_value()) {
+        result.error = QStringLiteral("no saved prior scale");
+    }
     return result;
 }
