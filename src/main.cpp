@@ -22,6 +22,11 @@ int main(int argc, char* argv[])
         return parsed.exitCode;
     }
 
+    if (parsed.command == Cli::Command::Help) {
+        QTextStream(stdout) << Cli::formatHelp();
+        return Cli::Success;
+    }
+
     LibKScreenBackend backend;
     if (parsed.command == Cli::Command::ApplySaved) {
         ApplyService service(backend);

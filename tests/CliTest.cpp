@@ -30,6 +30,7 @@ private slots:
 
     void formatApplySaved_empty_isNothingApplied();
     void formatApplySaved_printsConnectorPresetCanvasScale();
+    void formatHelp_includesUsageAndPresets();
 
     void resolve_zeroConnected_isExit3();
     void resolve_oneConnected_omittedOutput();
@@ -204,6 +205,20 @@ void CliTest::formatApplySaved_printsConnectorPresetCanvasScale()
     applied.scale = 2.00;
     QCOMPARE(Cli::formatApplySaved({applied}),
              QStringLiteral("DP-3  perfect  4096x2304 @ 120  scale 2.00\n"));
+}
+
+void CliTest::formatHelp_includesUsageAndPresets()
+{
+    const QString help = Cli::formatHelp();
+    QVERIFY(help.contains(QStringLiteral("kscaling --list")));
+    QVERIFY(help.contains(QStringLiteral("kscaling --apply <preset> [--output <connector>]")));
+    QVERIFY(help.contains(QStringLiteral("kscaling --revert [--output <connector>]")));
+    QVERIFY(help.contains(QStringLiteral("kscaling --apply-saved")));
+    QVERIFY(help.contains(QStringLiteral("kscaling --help")));
+    QVERIFY(help.contains(QStringLiteral("perfect")));
+    QVERIFY(help.contains(QStringLiteral("max-space")));
+    QVERIFY(help.contains(QStringLiteral("comfort")));
+    QVERIFY(help.contains(QStringLiteral("large")));
 }
 
 void CliTest::resolve_zeroConnected_isExit3()

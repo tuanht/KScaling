@@ -180,6 +180,19 @@ QString Cli::formatApplySaved(const QList<AppliedOutput>& applied)
     return text;
 }
 
+QString Cli::formatHelp()
+{
+    return QStringLiteral(
+        "Usage:\n"
+        "  kscaling --list\n"
+        "  kscaling --apply <preset> [--output <connector>]\n"
+        "  kscaling --revert [--output <connector>]\n"
+        "  kscaling --apply-saved\n"
+        "  kscaling --help\n"
+        "\n"
+        "Presets: perfect, max-space, comfort, large.\n");
+}
+
 QString Cli::formatList(const ListResult& listed)
 {
     QString text;

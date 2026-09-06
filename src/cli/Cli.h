@@ -58,4 +58,5 @@ public:
     static ResolveResult resolveOutput(const ParseResult& parsed, const QStringList& connectedNames);
     static QString formatList(const ListResult& listed);
     static QString formatApplySaved(const QList<AppliedOutput>& applied);
+    static QString formatHelp();
 };
