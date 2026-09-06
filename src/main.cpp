@@ -5,16 +5,17 @@
 #include "cli/Cli.h"
 #include "core/ApplyService.h"
 
-#include <QCoreApplication>
+#include <QGuiApplication>
 #include <QStringList>
 #include <QTextStream>
 
 int main(int argc, char* argv[])
 {
-    QCoreApplication app(argc, argv);
+    QGuiApplication::setDesktopSettingsAware(false);
+    QGuiApplication app(argc, argv);
     app.setApplicationName(QStringLiteral("kscaling"));
 
-    const Cli::ParseResult parsed = Cli::parse(QCoreApplication::arguments());
+    const Cli::ParseResult parsed = Cli::parse(QGuiApplication::arguments());
     if (parsed.exitCode != Cli::Success) {
         if (!parsed.error.isEmpty()) {
             QTextStream(stderr) << parsed.error << '\n';

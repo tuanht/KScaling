@@ -11,7 +11,7 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 
 set(CMAKE_AUTOMOC ON)
 
-find_package(Qt6 REQUIRED COMPONENTS Core Test)
+find_package(Qt6 REQUIRED COMPONENTS Core Gui Test)
 find_package(KF6Screen REQUIRED)
 
 add_executable(kscaling
@@ -28,6 +28,7 @@ target_include_directories(kscaling PRIVATE src src/core src/backend src/cli)
 target_link_libraries(kscaling
     PRIVATE
         Qt6::Core
+        Qt6::Gui
         KF6::Screen
 )
 
