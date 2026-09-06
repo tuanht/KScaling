@@ -20,6 +20,7 @@ public:
     explicit ApplyService(DisplayBackend& backend);
 
     Result apply(const QString& presetId, const ConnectorName& name);
+    Result applySaved();
     Result revert(const ConnectorName& name);
 
 private:
