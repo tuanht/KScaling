@@ -100,7 +100,7 @@ ListResult LibKScreenBackend::list()
     ListResult result;
     result.ok = true;
     for (const KScreen::OutputPtr& output : config->outputs()) {
-        if (!output) {
+        if (!output || !output->isConnected()) {
             continue;
         }
 
@@ -114,7 +114,7 @@ ListResult LibKScreenBackend::list()
 
         OutputSnapshot snapshot;
         snapshot.name = output->name();
-        snapshot.connected = output->isConnected();
+        snapshot.connected = true;
         snapshot.customModesCapable
             = output->capabilities().testFlag(KScreen::Output::Capability::CustomModes);
         snapshot.native = toMode(preferred);
