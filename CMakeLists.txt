@@ -78,6 +78,7 @@ add_test(NAME MockDisplayBackendTest COMMAND MockDisplayBackendTest)
 add_executable(CliTest
     tests/CliTest.cpp
     src/cli/Cli.cpp
+    src/core/ResolutionMath.cpp
 )
 target_include_directories(CliTest PRIVATE src src/core)
 target_link_libraries(CliTest
@@ -90,6 +91,7 @@ add_test(NAME CliTest COMMAND CliTest)
 add_executable(ListTest
     tests/ListTest.cpp
     src/cli/Cli.cpp
+    src/core/ResolutionMath.cpp
 )
 target_include_directories(ListTest PRIVATE src src/core)
 target_link_libraries(ListTest

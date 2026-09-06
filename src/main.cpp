@@ -22,12 +22,22 @@ int main(int argc, char* argv[])
         return parsed.exitCode;
     }
 
+    LibKScreenBackend backend;
+    const ListResult listed = backend.list();
+    if (parsed.command == Cli::Command::List) {
+        if (!listed.ok) {
+            if (!listed.error.isEmpty()) {
+                QTextStream(stderr) << listed.error << '\n';
+            }
+            return Cli::UsageError;
+        }
+        QTextStream(stdout) << Cli::formatList(listed);
+        return Cli::Success;
+    }
+
     if (parsed.command != Cli::Command::Apply) {
         return Cli::UsageError;
     }
-
-    LibKScreenBackend backend;
-    const ListResult listed = backend.list();
     if (!listed.ok) {
         if (!listed.error.isEmpty()) {
             QTextStream(stderr) << listed.error << '\n';

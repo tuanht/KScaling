@@ -4,8 +4,10 @@
 #include "Cli.h"
 
 #include "Preset.h"
+#include "ResolutionMath.h"
 
 #include <QLatin1String>
+#include <QSize>
 
 namespace {
 
@@ -128,4 +130,55 @@ Cli::ResolveResult Cli::resolveOutput(const ParseResult& parsed, const QStringLi
 
     result.output = parsed.output;
     return result;
+}
+
+namespace {
+
+QString formatSize(Size size)
+{
+    return QStringLiteral("%1x%2").arg(size.w).arg(size.h);
+}
+
+QString formatHeader(const OutputSnapshot& snapshot)
+{
+    const QString capability = snapshot.customModesCapable ? QStringLiteral("capable")
+                                                           : QStringLiteral("incapable");
+    return QStringLiteral("%1  %2  native %3  current %4 @ %5  scale %6")
+        .arg(snapshot.name, capability, formatSize(snapshot.native.size), formatSize(snapshot.current.size),
+             QString::number(snapshot.current.hz, 'f', 2), QString::number(snapshot.scale, 'f', 2));
+}
+
+QString formatPresetRow(const Preset& preset, QSize native)
+{
+    const ModePlan plan = ResolutionMath::plan(native, preset.uiScale);
+    const QString looks = QStringLiteral("%1x%2").arg(plan.looksLike.width()).arg(plan.looksLike.height());
+    const QString canvas = QStringLiteral("%1x%2").arg(plan.canvas.width()).arg(plan.canvas.height());
+    return QStringLiteral("  %1  looks %2  mode %3 @ %4")
+        .arg(QLatin1String(preset.id), -9)
+        .arg(looks, -9)
+        .arg(canvas)
+        .arg(qRound(plan.hz));
+}
+
+} // namespace
+
+QString Cli::formatList(const ListResult& listed)
+{
+    QString text;
+    for (const OutputSnapshot& snapshot : listed.snapshots) {
+        if (!snapshot.connected) {
+            continue;
+        }
+        text += formatHeader(snapshot);
+        text += QLatin1Char('\n');
+        if (!snapshot.customModesCapable) {
+            continue;
+        }
+        const QSize native(snapshot.native.size.w, snapshot.native.size.h);
+        for (const Preset& preset : kPresets) {
+            text += formatPresetRow(preset, native);
+            text += QLatin1Char('\n');
+        }
+    }
+    return text;
 }

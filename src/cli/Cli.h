@@ -3,6 +3,8 @@
 
 #pragma once
 
+#include "backend/DisplayBackend.h"
+
 #include <QString>
 #include <QStringList>
 
@@ -44,4 +46,5 @@ public:
 
     static ParseResult parse(const QStringList& args);
     static ResolveResult resolveOutput(const ParseResult& parsed, const QStringList& connectedNames);
+    static QString formatList(const ListResult& listed);
 };
