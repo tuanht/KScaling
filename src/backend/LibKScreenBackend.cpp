@@ -198,7 +198,23 @@ Result LibKScreenBackend::applyCustom(const ConnectorName& name,
 
 Result LibKScreenBackend::revert(const ConnectorName& name, std::optional<qreal> originalScale)
 {
-    Q_UNUSED(name);
-    Q_UNUSED(originalScale);
-    return {false, QStringLiteral("not implemented")};
+    QString error;
+    KScreen::ConfigPtr config = getConfig(&error);
+    if (!config) {
+        return {false, error};
+    }
+
+    KScreen::OutputPtr output = findOutputByName(config, name);
+    if (!output) {
+        return {false, QStringLiteral("output not found")};
+    }
+    if (!output->isConnected()) {
+        return {false, QStringLiteral("output disconnected")};
+    }
+
+    output->setCurrentModeId(output->preferredModeId());
+    if (originalScale.has_value()) {
+        output->setScale(*originalScale);
+    }
+    return setConfig(config);
 }
