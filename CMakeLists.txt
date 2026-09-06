@@ -16,6 +16,7 @@ find_package(KF6Screen REQUIRED)
 
 add_executable(kscaling
     src/main.cpp
+    src/cli/Cli.cpp
     src/core/Settings.cpp
     src/backend/LibKScreenBackend.cpp
 )
@@ -71,6 +72,18 @@ target_link_libraries(MockDisplayBackendTest
         Qt6::Test
 )
 add_test(NAME MockDisplayBackendTest COMMAND MockDisplayBackendTest)
+
+add_executable(CliTest
+    tests/CliTest.cpp
+    src/cli/Cli.cpp
+)
+target_include_directories(CliTest PRIVATE src src/core)
+target_link_libraries(CliTest
+    PRIVATE
+        Qt6::Core
+        Qt6::Test
+)
+add_test(NAME CliTest COMMAND CliTest)
 
 add_executable(ApplyOrchestratorTest
     tests/ApplyOrchestratorTest.cpp

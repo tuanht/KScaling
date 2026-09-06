@@ -35,5 +35,13 @@ public:
         QString error;
     };
 
+    struct ResolveResult
+    {
+        ExitCode exitCode = Success;
+        QString output;
+        QString error;
+    };
+
     static ParseResult parse(const QStringList& args);
+    static ResolveResult resolveOutput(const ParseResult& parsed, const QStringList& connectedNames);
 };
