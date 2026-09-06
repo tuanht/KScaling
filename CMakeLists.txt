@@ -131,3 +131,18 @@ target_link_libraries(RevertTest
         Qt6::Test
 )
 add_test(NAME RevertTest COMMAND RevertTest)
+
+add_executable(ApplySavedTest
+    tests/ApplySavedTest.cpp
+    src/core/ApplyService.cpp
+    src/core/ResolutionMath.cpp
+    src/core/Settings.cpp
+)
+target_include_directories(ApplySavedTest PRIVATE src/core)
+target_link_libraries(ApplySavedTest
+    PRIVATE
+        MockDisplayBackend
+        Qt6::Core
+        Qt6::Test
+)
+add_test(NAME ApplySavedTest COMMAND ApplySavedTest)
