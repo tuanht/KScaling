@@ -182,10 +182,12 @@ and confirm `perfect` is current again.
 
 - **FR-004**: Applied scale MUST be 2.00. v1 MUST NOT use fractional scale to
   change looks-like size.
-- **FR-005**: Refresh MUST follow: if canvas width ≥ 2 × native width → 60 Hz,
-  else cap at 120 Hz. Custom sizes MUST be full-blanking (not reduced
-  blanking). The system MUST NOT loop other Hz values if the compositor
-  rejects the mode.
+- **FR-005**: Refresh MUST follow: if the canvas is larger than 4K UHD
+  (width > 3840 or height > 2160) → 60 Hz, else cap at 120 Hz. Author GPU
+  cannot sustain >60 Hz above 4K. Fixture A: `perfect` 4096×2304 and
+  `max-space` 5120×2880 → 60 Hz; `comfort` 3200×1800 and `large` 2880×1620
+  → 120 Hz. Custom sizes MUST be full-blanking (not reduced blanking). The
+  system MUST NOT loop other Hz values if the compositor rejects the mode.
 - **FR-006**: Users MUST be able to list connected outputs, connector names,
   custom-size support, native/current size, current scale, and computed
   presets (`kscaling --list`).

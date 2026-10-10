@@ -19,7 +19,7 @@ succeeds (then copied into SavedProfile).
 | looks_like | size (w×h) | `snap8` as in research.md; aspect preserved |
 | canvas | size (w×h) | `looks_like × 2` |
 | scale | float | always 2.00 |
-| hz | float | 60 if canvas_w ≥ 2×native_w, else min(120, …) request 120 |
+| hz | float | 60 if canvas larger than 4K UHD (w>3840 or h>2160), else 120 |
 
 Fixture A (native 2560×1440) golden:
 

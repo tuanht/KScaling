@@ -62,7 +62,7 @@ scale      = 2.00
 | `comfort` | 1.60 | 1600×900 | 3200×1800 |
 | `large` | 1.778 | 1440×810 | 2880×1620 |
 
-Hz heuristic: if `mode_w ≥ 2 × native_w` → 60 Hz, else cap at 120 Hz. Always `ModeInfo::Flag::Custom` without ReducedBlanking (equivalent to doctor `.full`).
+Hz heuristic: if canvas is larger than 4K UHD (width > 3840 or height > 2160) → 60 Hz, else cap at 120 Hz. Always `ModeInfo::Flag::Custom` without ReducedBlanking (equivalent to doctor `.full`).
 
 Identify outputs by **connector name** (`DP-3`), never by numeric KScreen id.
 

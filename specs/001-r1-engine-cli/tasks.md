@@ -26,9 +26,9 @@ description: "Task list for R1 Engine and CLI"
 
 **Purpose**: Project initialization and basic structure
 
-- [ ] T001 Create `src/core/`, `src/backend/`, `src/cli/`, and `tests/` per `specs/001-r1-engine-cli/plan.md`
-- [ ] T002 Write `CMakeLists.txt` for C++20, `find_package(Qt6 REQUIRED COMPONENTS Core Test)`, `find_package(KF6Screen REQUIRED)`, `kscaling` executable, CTest
-- [ ] T003 [P] Add `.clang-format` at repository root for C++
+- [x] T001 Create `src/core/`, `src/backend/`, `src/cli/`, and `tests/` per `specs/001-r1-engine-cli/plan.md`
+- [x] T002 Write `CMakeLists.txt` for C++20, `find_package(Qt6 REQUIRED COMPONENTS Core Test)`, `find_package(KF6Screen REQUIRED)`, `kscaling` executable, CTest
+- [x] T003 [P] Add `.clang-format` at repository root for C++
 
 ---
 
@@ -38,15 +38,15 @@ description: "Task list for R1 Engine and CLI"
 
 **⚠️ CRITICAL**: No user story work can begin until this phase is complete
 
-- [ ] T004 Write failing Qt Test Fixture A goldens and Fixture B perfect in `tests/ResolutionMathTest.cpp`
-- [ ] T005 [P] Define closed preset table (`perfect` 1.25, `max-space` 1.00, `comfort` 1.60, `large` 1.778) in `src/core/Preset.h`
-- [ ] T006 Implement `snap8` ModePlan (aspect-preserving, canvas 2×, Hz heuristic) in `src/core/ResolutionMath.h` and `src/core/ResolutionMath.cpp` until T004 passes
-- [ ] T007 [P] Define `DisplayBackend` types and `list` / `applyCustom` / `revert` in `src/backend/DisplayBackend.h` per `specs/001-r1-engine-cli/contracts/display-backend.md`
-- [ ] T008 [P] Define `SavedProfile` fields in `src/core/Profile.h` per `specs/001-r1-engine-cli/data-model.md`
-- [ ] T009 Implement `profiles.json` load/save under `QStandardPaths::AppConfigLocation` in `src/core/Settings.h` and `src/core/Settings.cpp`
-- [ ] T010 [P] Implement mock that assigns mode ids only after simulated phase A in `src/backend/MockDisplayBackend.h` and `src/backend/MockDisplayBackend.cpp`
-- [ ] T011 Define parse result and exit codes 0–4 in `src/cli/Cli.h` per `specs/001-r1-engine-cli/contracts/cli.md`
-- [ ] T012 Stub `src/main.cpp` to dispatch CLI (Qt Core only; MUST NOT use Widgets or `QProcess`)
+- [x] T004 Write failing Qt Test Fixture A goldens and Fixture B perfect in `tests/ResolutionMathTest.cpp`
+- [x] T005 [P] Define closed preset table (`perfect` 1.25, `max-space` 1.00, `comfort` 1.60, `large` 1.778) in `src/core/Preset.h`
+- [x] T006 Implement `snap8` ModePlan (aspect-preserving, canvas 2×, Hz heuristic) in `src/core/ResolutionMath.h` and `src/core/ResolutionMath.cpp` until T004 passes
+- [x] T007 [P] Define `DisplayBackend` types and `list` / `applyCustom` / `revert` in `src/backend/DisplayBackend.h` per `specs/001-r1-engine-cli/contracts/display-backend.md`
+- [x] T008 [P] Define `SavedProfile` fields in `src/core/Profile.h` per `specs/001-r1-engine-cli/data-model.md`
+- [x] T009 Implement `profiles.json` load/save under `QStandardPaths::AppConfigLocation` in `src/core/Settings.h` and `src/core/Settings.cpp`
+- [x] T010 [P] Implement mock that assigns mode ids only after simulated phase A in `src/backend/MockDisplayBackend.h` and `src/backend/MockDisplayBackend.cpp`
+- [x] T011 Define parse result and exit codes 0–4 in `src/cli/Cli.h` per `specs/001-r1-engine-cli/contracts/cli.md`
+- [x] T012 Stub `src/main.cpp` to dispatch CLI (Qt Core only; MUST NOT use Widgets or `QProcess`)
 
 **Checkpoint**: Foundation ready - user story implementation can now begin in parallel
 
@@ -62,14 +62,14 @@ description: "Task list for R1 Engine and CLI"
 
 > **NOTE: Write these tests FIRST, ensure they FAIL before implementation**
 
-- [ ] T013 [P] [US1] Write failing two-phase apply tests (reuse by size+`qRound(hz)`, native=`preferred`, failed switch restores prior scale, no pre-phase-A id, incapable CustomModes → no mode/scale change and exit 1, reject does not retry Hz) in `tests/ApplyOrchestratorTest.cpp`
+- [x] T013 [P] [US1] Write failing two-phase apply tests (reuse by size+`qRound(hz)`, native=`preferred`, failed switch restores prior scale, no pre-phase-A id, incapable CustomModes → no mode/scale change and exit 1, reject does not retry Hz) in `tests/ApplyOrchestratorTest.cpp`
 
 ### Implementation for User Story 1
 
-- [ ] T014 [US1] Implement apply orchestration (write-once `originalScale`, persist only on success) in `src/core/ApplyService.h` and `src/core/ApplyService.cpp`
-- [ ] T015 [US1] Implement libkscreen two-phase `applyCustom` (`GetConfigOperation` / `SetConfigOperation` / `exec()`, abort if `!CustomModes`, full `setCustomModes` list, no guessed ids, no Hz retry on reject) in `src/backend/LibKScreenBackend.h` and `src/backend/LibKScreenBackend.cpp`
-- [ ] T016 [US1] Implement `--apply` / `--output` parsing and exit 3/4 rules in `src/cli/Cli.cpp`
-- [ ] T017 [US1] Wire `src/main.cpp` `--apply` to `ApplyService` + `LibKScreenBackend` and add SPDX `GPL-3.0-or-later` headers on new `src/` files
+- [x] T014 [US1] Implement apply orchestration (write-once `originalScale`, persist only on success) in `src/core/ApplyService.h` and `src/core/ApplyService.cpp`
+- [x] T015 [US1] Implement libkscreen two-phase `applyCustom` (`GetConfigOperation` / `SetConfigOperation` / `exec()`, abort if `!CustomModes`, full `setCustomModes` list, no guessed ids, no Hz retry on reject) in `src/backend/LibKScreenBackend.h` and `src/backend/LibKScreenBackend.cpp`
+- [x] T016 [US1] Implement `--apply` / `--output` parsing and exit 3/4 rules in `src/cli/Cli.cpp`
+- [x] T017 [US1] Wire `src/main.cpp` `--apply` to `ApplyService` + `LibKScreenBackend` and add SPDX `GPL-3.0-or-later` headers on new `src/` files
 
 **Checkpoint**: User Story 1 fully functional and testable independently
 
@@ -83,12 +83,12 @@ description: "Task list for R1 Engine and CLI"
 
 ### Tests for User Story 2
 
-- [ ] T018 [P] [US2] Write failing `--list` column and Fixture A preset-row tests in `tests/ListTest.cpp`
+- [x] T018 [P] [US2] Write failing `--list` column and Fixture A preset-row tests in `tests/ListTest.cpp`
 
 ### Implementation for User Story 2
 
-- [ ] T019 [US2] Implement `list()` on `LibKScreenBackend` in `src/backend/LibKScreenBackend.cpp` using `Output::name()` and `preferredMode()` as native
-- [ ] T020 [US2] Implement `--list` printer in `src/cli/Cli.cpp` per `specs/001-r1-engine-cli/contracts/cli.md`
+- [x] T019 [US2] Implement `list()` on `LibKScreenBackend` in `src/backend/LibKScreenBackend.cpp` using `Output::name()` and `preferredMode()` as native
+- [x] T020 [US2] Implement `--list` printer in `src/cli/Cli.cpp` per `specs/001-r1-engine-cli/contracts/cli.md`
 
 **Checkpoint**: User Stories 1 AND 2 work independently
 
@@ -102,12 +102,12 @@ description: "Task list for R1 Engine and CLI"
 
 ### Tests for User Story 3
 
-- [ ] T021 [P] [US3] Write failing revert tests (originalScale write-once, profile file unchanged) in `tests/RevertTest.cpp`
+- [x] T021 [P] [US3] Write failing revert tests (originalScale write-once, profile file unchanged) in `tests/RevertTest.cpp`
 
 ### Implementation for User Story 3
 
-- [ ] T022 [US3] Implement `revert` on `LibKScreenBackend` in `src/backend/LibKScreenBackend.cpp` (`preferredModeId` + optional originalScale)
-- [ ] T023 [US3] Implement `--revert [--output]` in `src/cli/Cli.cpp` calling `ApplyService` without clearing `SavedProfile`
+- [x] T022 [US3] Implement `revert` on `LibKScreenBackend` in `src/backend/LibKScreenBackend.cpp` (`preferredModeId` + optional originalScale)
+- [x] T023 [US3] Implement `--revert [--output]` in `src/cli/Cli.cpp` calling `ApplyService` without clearing `SavedProfile`
 
 **Checkpoint**: User Stories 1–3 work independently
 
@@ -121,12 +121,12 @@ description: "Task list for R1 Engine and CLI"
 
 ### Tests for User Story 4
 
-- [ ] T024 [P] [US4] Write failing `--apply-saved` tests (after revert, skip disconnected, empty → 0) in `tests/ApplySavedTest.cpp`
+- [x] T024 [P] [US4] Write failing `--apply-saved` tests (after revert, skip disconnected, empty → 0) in `tests/ApplySavedTest.cpp`
 
 ### Implementation for User Story 4
 
-- [ ] T025 [US4] Implement apply-saved loop (mode+hz first, recompute from preset if missing) in `src/core/ApplyService.cpp`
-- [ ] T026 [US4] Implement `--apply-saved` in `src/cli/Cli.cpp` (reject `--output` with exit 1)
+- [x] T025 [US4] Implement apply-saved loop (mode+hz first, recompute from preset if missing) in `src/core/ApplyService.cpp`
+- [x] T026 [US4] Implement `--apply-saved` in `src/cli/Cli.cpp` (reject `--output` with exit 1)
 
 **Checkpoint**: All user stories independently functional
 
@@ -136,12 +136,12 @@ description: "Task list for R1 Engine and CLI"
 
 **Purpose**: Improvements that affect multiple user stories
 
-- [ ] T027 [P] Add `--help` text in `src/cli/Cli.cpp`
-- [ ] T028 Add SPDX `GPL-3.0-or-later` to every file under `src/` and `tests/`
-- [ ] T029 Reject unknown preset ids with exit 1 in `src/cli/Cli.cpp`
-- [ ] T030 Confirm `src/` contains no `QProcess` and no `kscreen-doctor` runtime spawn
-- [ ] T031 Run `ctest --test-dir build --output-on-failure` per `specs/001-r1-engine-cli/quickstart.md`
-- [ ] T032 [P] Write `README.md` with build/run pointers to `specs/001-r1-engine-cli/quickstart.md`
+- [x] T027 [P] Add `--help` text in `src/cli/Cli.cpp`
+- [x] T028 Add SPDX `GPL-3.0-or-later` to every file under `src/` and `tests/`
+- [x] T029 Reject unknown preset ids with exit 1 in `src/cli/Cli.cpp`
+- [x] T030 Confirm `src/` contains no `QProcess` and no `kscreen-doctor` runtime spawn
+- [x] T031 Run `ctest --test-dir build --output-on-failure` per `specs/001-r1-engine-cli/quickstart.md`
+- [x] T032 [P] Write `README.md` with build/run pointers to `specs/001-r1-engine-cli/quickstart.md`
 
 ---
 

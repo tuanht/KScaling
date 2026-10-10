@@ -1,15 +1,10 @@
 <!--
 Sync Impact Report
-- Version change: unset (template scaffold) → 1.0.0
-- Modified principles: none (first ratification; template placeholders replaced)
-- Added sections:
-  - Core Principles I–IX (Looks-like first; Connector identity; libkscreen
-    display API; Two-phase apply; Revert; Ephemeral custom modes; Sharp by
-    default; Discover before specifying; Small surface and GPL)
-  - Additional Constraints
-  - Development Workflow
-  - Governance
-- Removed sections: none
+- Version change: 1.0.0 → 1.0.1
+- Modified principles: none (I–IX unchanged)
+- Additional Constraints: Hz heuristic changed from
+  `mode_w ≥ 2 × native_w → 60 else cap 120` to
+  canvas larger than 4K UHD (w>3840 or h>2160) → 60 else cap 120
 - Follow-up TODOs: none
 -->
 
@@ -125,7 +120,8 @@ Apply protocol (MUST NOT skip a phase without written evidence):
 ```
 
 `ModeInfo` MUST use `Flag::Custom` without ReducedBlanking (doctor `.full`).
-Hz heuristic: if `mode_w ≥ 2 × native_w` → 60 Hz, else cap at 120 Hz.
+Hz heuristic: if canvas is larger than 4K UHD (width > 3840 or
+height > 2160) → 60 Hz, else cap at 120 Hz.
 
 GUI code SHOULD prefer the async `finished` signal. R1 CLI MAY use
 `ConfigOperation::exec()`.
@@ -183,4 +179,4 @@ Complexity (one-phase apply, doctor fallback, extra identity keys, fractional
 scale) MUST be justified with evidence from a live session or KF6Screen
 sources before it can amend a principle.
 
-**Version**: 1.0.0 | **Ratified**: 2026-09-05 | **Last Amended**: 2026-09-05
+**Version**: 1.0.1 | **Ratified**: 2026-09-05 | **Last Amended**: 2026-09-06

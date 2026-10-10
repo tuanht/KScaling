@@ -37,13 +37,18 @@ Source of truth: `docs/discovery-r1.md`, constitution v1.0.0, spec
 
 ## Refresh heuristic
 
-- Decision: If `mode_w ≥ 2 × native_w` → request 60 Hz, else cap 120 Hz.
-  Flags: `ModeInfo::Flag::Custom` only (no ReducedBlanking). On reject:
+- Decision: If canvas is larger than 4K UHD (`canvas_w > 3840` or
+  `canvas_h > 2160`) → request 60 Hz, else cap 120 Hz. Flags:
+  `ModeInfo::Flag::Custom` only (no ReducedBlanking). On reject:
   report `errorString()`, revert preferred mode, do not loop Hz.
-- Rationale: Constitution. Fixture A already has 4096@~60 and 5120@~120
-  leftovers; heuristic is unproven but must not become a retry loop.
-- Alternatives considered: Match fixture leftover Hz (not portable). Agent
-  retry 120 vs 60 (forbidden).
+- Rationale: Live author GPU cannot drive canvases larger than 4K at
+  more than 60 Hz. Matches `contracts/cli.md` Fixture A `--list` goldens
+  (`perfect` and `max-space` @ 60, `comfort`/`large` @ 120). The v2
+  `mode_w ≥ 2 × native_w` rule requested 120 Hz for `perfect` (4096 <
+  5120) and is rejected.
+- Alternatives considered: `mode_w ≥ 2 × native_w` (inaccurate on Fixture
+  A). Match leftover compositor Hz (not portable). Agent retry 120 vs 60
+  (forbidden).
 
 ## snap8
 
